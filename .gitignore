@@ -1,0 +1,28 @@
+# Build output
+/target/
+*.class
+*.jar
+
+# Runtime data and secrets
+.env
+.env.*
+!.env.example
+/logs/
+/images/
+/data/
+Config
+ca.crt
+*.pem
+*.key
+*.onnx
+Api_List.txt
+
+# IDE and OS
+.idea/
+.vscode/
+.settings/
+.project
+.classpath
+*.iml
+.DS_Store
+Thumbs.db

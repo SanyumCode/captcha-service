@@ -1,0 +1,10 @@
+Captcha Service
+Copyright (c) 2026 Ouyang Zhipeng
+
+This product includes software developed by third parties. Their licenses and
+notices remain the property of their respective authors. Maven resolves the
+complete dependency list; review it before redistribution.
+
+The neural-network model is not distributed in this repository. Model code and
+artifacts are maintained separately at https://github.com/SanyumCode/captcha-crnn
+and may be subject to separate terms.

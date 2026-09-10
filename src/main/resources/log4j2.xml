@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <!-- DEBUG + INFO 日志文件 -->
+        <!-- 直接使用系统属性log.prefix，如果未设置则默认为app -->
+        <RollingFile name="InfoFileAppender"
+                     fileName="logs/${sys:log.prefix:-app}-info.log"
+                     filePattern="logs/${sys:log.prefix:-app}-info-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- 按天滚动 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 单个文件最大100MB -->
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <!-- 删除策略：只保留最近7天的日志 -->
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs" maxDepth="1">
+                    <IfFileName glob="${sys:log.prefix:-app}-info-*.log.gz"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <Filters>
+                <!-- 只允许 INFO 和 DEBUG -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <!-- WARN 以上日志文件 -->
+        <!-- 直接使用系统属性log.prefix，如果未设置则默认为app -->
+        <RollingFile name="WarnFileAppender"
+                     fileName="logs/${sys:log.prefix:-app}-warn.log"
+                     filePattern="logs/${sys:log.prefix:-app}-warn-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 单个文件最大100MB -->
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <!-- 删除策略：只保留最近7天的日志 -->
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs" maxDepth="1">
+                    <IfFileName glob="${sys:log.prefix:-app}-warn-*.log.gz"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+            <Filters>
+                <!-- 只允许 WARN 及以上 -->
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <!-- 控制台输出（可选） -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- 设置根日志，输出到两个文件和控制台 -->
+        <Root level="info">
+            <AppenderRef ref="InfoFileAppender"/>
+            <AppenderRef ref="WarnFileAppender"/>
+            <AppenderRef ref="ConsoleAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
