@@ -4,7 +4,7 @@ Describe the concrete problem and why the change is needed.
 
 ## Changes
 
-- 
+- Describe the implementation.
 
 ## Verification
 
