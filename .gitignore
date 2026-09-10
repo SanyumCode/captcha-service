@@ -10,7 +10,7 @@
 /logs/
 /images/
 /data/
-Config
+/Config
 ca.crt
 *.pem
 *.key
